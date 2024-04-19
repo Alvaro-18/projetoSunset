@@ -8,9 +8,16 @@ import {
 } from "react-native";
 import {Colors} from "../assets/constants/colors";
 import {useState} from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export function LoginScreen() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const navigation = useNavigation<any>();
+
+  function loginHandler(){
+    //chamada da api
+    navigation.navigate("Home");
+  }
 
   function EyeIcon() {
     return isPasswordVisible ? (
@@ -55,7 +62,7 @@ export function LoginScreen() {
         </View>
 
         <Pressable
-       
+          onPress={loginHandler}
           style={({pressed}) =>
             pressed ? [styles.btn, styles.pressed] : styles.btn
           }>

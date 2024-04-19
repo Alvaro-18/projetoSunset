@@ -1,16 +1,14 @@
-import {View, StyleSheet} from "react-native";
+import { HomeScreen } from "../screens/HomeScreen";
 import {LoginScreen} from "../screens/LoginScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
 
 export function Main() {
   return (
-    <View style={styles.container}>
-      <LoginScreen />
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginScreen}/>
+      <Stack.Screen name="Home" component={HomeScreen}/>
+    </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-});
