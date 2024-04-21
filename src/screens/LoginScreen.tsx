@@ -5,27 +5,47 @@ import {
   TextInput,
   StyleSheet,
   Text,
+  Alert,
 } from "react-native";
+import {Controller, useForm} from "react-hook-form";
+
+import {useNavigation} from "@react-navigation/native";
+import {PrimaryButton} from "../components/Login/PrimaryButton";
+import {PrimaryTextInput} from "../components/Login/PrimaryTextInput";
 import {Colors} from "../assets/constants/colors";
-import {useState} from "react";
-import { useNavigation } from "@react-navigation/native";
+import {PrimaryPasswordInput} from "../components/Login/PrimaryPassword";
 
 export function LoginScreen() {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const navigation = useNavigation<any>();
 
-  function loginHandler(){
-    //chamada da api
-    navigation.navigate("Home");
+  const {
+    control,
+    handleSubmit,
+    resetField,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      name: "",
+      password: "",
+    },
+  });
+
+  function resetFields() {
+    resetField("name", {defaultValue: ""});
+    resetField("password", {defaultValue: ""});
   }
 
-  function EyeIcon() {
-    return isPasswordVisible ? (
-      <Image source={require("../assets/images/eyeOpenIcon.png")} />
-    ) : (
-      <Image source={require("../assets/images/eyeClosedIcon.png")} />
-    );
-  }
+  const onSubmit = async (userData: {name: string; password: string}) => {
+    try {
+      navigation.navigate("Home");
+    } catch (error) {
+      Alert.alert(
+        "Authentication failed!",
+        "Unable to log in, check your credentials and try again",
+      );
+    }
+    resetFields();
+  };
 
   return (
     <View style={styles.containerGeral}>
@@ -35,39 +55,44 @@ export function LoginScreen() {
           style={styles.img}
         />
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.text}>Nome completo*</Text>
-          <TextInput
-            placeholder="Nome completo"
-            style={[styles.input, styles.inputName]}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.text}>Senha*</Text>
-          <View style={styles.passwordInputContainer}>
-            <TextInput
-              placeholder="Senha"
-              style={[styles.input, styles.inputPassword]}
-              secureTextEntry={!isPasswordVisible}
+        <View style={styles.form}>
+        <Controller
+          name="name"
+          control={control}
+          rules={{
+            required: true,
+            pattern: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
+          }}
+          render={({field: {onChange, value}, fieldState}) => (
+            <PrimaryTextInput
+              placeholder="Nome completo"
+              isInvalid={fieldState.invalid}
+              onChangeText={onChange}
+              value={value}
             />
-            <Pressable
-              style={styles.showButton}
-              onPress={() => {
-                setIsPasswordVisible(!isPasswordVisible);
-              }}>
-              <EyeIcon />
-            </Pressable>
-          </View>
-        </View>
+          )}
+        />
+        {errors.name && <Text style={styles.alertText}>Not a valid name.</Text>}
 
-        <Pressable
-          onPress={loginHandler}
-          style={({pressed}) =>
-            pressed ? [styles.btn, styles.pressed] : styles.btn
-          }>
-          <Text style={styles.btnText}>Login</Text>
-        </Pressable>
+        <Controller
+          name="password"
+          control={control}
+          rules={{required: true, minLength: 6}}
+          render={({field: {onChange, value}, fieldState}) => (
+            <PrimaryPasswordInput
+              placeholder="Senha"
+              isInvalid={fieldState.invalid}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+        />
+        {errors.password && (
+          <Text style={styles.alertText}>Name or password incorrect</Text>
+        )}
+        </View> 
+
+        <PrimaryButton onPress={handleSubmit(onSubmit)} text="Login" />
       </View>
     </View>
   );
@@ -89,88 +114,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  img: {
-    marginVertical: 18,
-  },
-
-  text: {
-    color: "#000",
-    paddingLeft: 12,
-    fontWeight: "bold",
-  },
-
-  inputContainer: {
-    width: "90%",
-    marginBottom: 18,
-  },
-
-  input: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingLeft: 12,
-  },
-
-  inputName: {
-    height: 48,
-    borderRadius: 8,
-    backgroundColor: Colors.secundaryColorLight,
+  form: {
+    alignItems: "center",
     width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4,
-    elevation: 7,
+    height: 180,
+    justifyContent: "space-evenly",
+    marginBottom: 20
   },
 
-  inputPassword: {
-    width: "80%",
+  alertText: {
+    color: "red",
   },
 
-  passwordInputContainer: {
-    borderRadius: 8,
-    backgroundColor: Colors.secundaryColorLight,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  showButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "20%",
-    height: 48,
-  },
-
-  
-  pressed: {
-    backgroundColor: Colors.secundaryColorDark,
-  },
-
-  btn: {
-    marginTop: 20,
-    backgroundColor: Colors.secundaryColor,
-    height: 48,
-    width: "90%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 24,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4,
-    elevation: 7,
-  },
-
-
-  btnText: {
-    fontSize: 20,
-    color: "#fff",
-    fontWeight: "bold",
+  img: {
+    marginTop: 18,
+    marginBottom: 8
   },
 });
