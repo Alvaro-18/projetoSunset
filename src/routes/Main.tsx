@@ -1,14 +1,21 @@
-import { HomeScreen } from "../screens/HomeScreen";
+import {NavigationContainer} from "@react-navigation/native";
+import {HomeScreen} from "../screens/HomeScreen";
 import {LoginScreen} from "../screens/LoginScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
 export function Main() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen}/>
-      <Stack.Screen name="Home" component={HomeScreen}/>
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
