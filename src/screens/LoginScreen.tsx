@@ -1,8 +1,6 @@
 import {
   View,
-  Pressable,
   Image,
-  TextInput,
   StyleSheet,
   Text,
   Alert,
@@ -10,10 +8,10 @@ import {
 import {Controller, useForm} from "react-hook-form";
 
 import {useNavigation} from "@react-navigation/native";
-import {PrimaryButton} from "../components/Login/PrimaryButton";
-import {PrimaryTextInput} from "../components/Login/PrimaryTextInput";
+import {PrimaryButton} from "../components/login/PrimaryButton";
+import {PrimaryTextInput} from "../components/login/PrimaryTextInput";
 import {Colors} from "../assets/constants/colors";
-import {PrimaryPasswordInput} from "../components/Login/PrimaryPassword";
+import {PrimaryPasswordInput} from "../components/login/PrimaryPassword";
 
 export function LoginScreen() {
   const navigation = useNavigation<any>();
@@ -35,7 +33,7 @@ export function LoginScreen() {
     resetField("password", {defaultValue: ""});
   }
 
-  const onSubmit = async (userData: {name: string; password: string}) => {
+  const onSubmit = async (/*userData: {name: string; password: string}*/) => {
     try {
       navigation.navigate("Home");
     } catch (error) {
