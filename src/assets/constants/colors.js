@@ -5,5 +5,6 @@ export const Colors = {
   secundaryColorLight: "#59AE92",
   secundaryColorDark: "#026241",
   btnColorOff: "#B9B9B9",
+  grayColorDark: "#9F9F9F",
   erroColor: "#C91E2D"
 };
