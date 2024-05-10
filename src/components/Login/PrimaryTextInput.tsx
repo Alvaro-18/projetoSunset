@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 
   labelErro: {
-    color: Colors.erroColor,
+    color: Colors.redColor,
   },
 
   label: {
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 
   inputErro: {
-    borderColor: Colors.erroColor,
+    borderColor: Colors.redColor,
     borderWidth: 2,
     backgroundColor: "#B9B9B9"
   },
