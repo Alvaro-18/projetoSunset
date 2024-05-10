@@ -1,23 +1,19 @@
 import {GestureResponderEvent, Pressable, StyleSheet, Text} from "react-native";
-import { Colors } from "../../assets/constants/colors";
+import {Colors} from "../../assets/constants/colors";
 
 export function PrimaryButton({
   onPress,
   text,
-  isDisable,
 }: {
   onPress: (event: GestureResponderEvent) => void;
   text: string;
-  isDisable?:boolean
 }) {
   return (
     <Pressable
       onPress={onPress}
       style={({pressed}) =>
         pressed ? [styles.btn, styles.pressed] : styles.btn
-      }
-      disabled={isDisable}
-      >
+      }>
       <Text style={styles.btnText}>{text}</Text>
     </Pressable>
   );
