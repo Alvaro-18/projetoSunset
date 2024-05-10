@@ -1,9 +1,10 @@
 import {Image, Pressable, Text, View, StyleSheet} from "react-native";
 import {Colors} from "../../assets/constants/colors";
-import {useNavigation} from "@react-navigation/native";
+import {ParamListBase, useNavigation} from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export function HeaderBar() {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   function navigationHandler() {
     //logout
