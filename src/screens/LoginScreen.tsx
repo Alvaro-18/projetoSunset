@@ -7,14 +7,15 @@ import {
 } from "react-native";
 import {Controller, useForm} from "react-hook-form";
 
-import {useNavigation} from "@react-navigation/native";
+import {ParamListBase, useNavigation} from "@react-navigation/native";
 import {PrimaryButton} from "../components/login/PrimaryButton";
 import {PrimaryTextInput} from "../components/login/PrimaryTextInput";
 import {Colors} from "../assets/constants/colors";
 import {PrimaryPasswordInput} from "../components/login/PrimaryPassword";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export function LoginScreen() {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const {
     control,
